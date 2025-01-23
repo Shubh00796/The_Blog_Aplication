@@ -22,6 +22,10 @@ public class Article {
         this.publicationDate = publicationDate;
     }
 
+    public Article() {
+
+    }
+
     public Long getId() {
         return id;
     }
