@@ -1,4 +1,4 @@
-package com.Personal.blogapplication.SecurityConfig;
+package com.Personal.blogapplication.configs;
 
 import com.Personal.blogapplication.Utils.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
