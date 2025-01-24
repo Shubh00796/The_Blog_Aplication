@@ -1,54 +1,37 @@
 package com.Personal.blogapplication.SecurityConfig;
 
-import com.Personal.blogapplication.Service.UserService;
+import com.Personal.blogapplication.Utils.JwtFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final JwtFilter jwtFilter;
+
+    @Autowired
+    public SecurityConfig(JwtFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for testing purposes (not recommended for production)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").authenticated() // Protect "/admin/**"
-                        .requestMatchers("/user/**").permitAll() // Allow all requests to "/user/**"
-                        .anyRequest().permitAll() // Allow all other requests
+                        .requestMatchers("/admin/**").authenticated()
+                        .requestMatchers("/user/**").permitAll()
+                        .anyRequest().permitAll()
                 )
-                .formLogin(form -> form
-                        .loginPage("/login") // Custom login page
-                        .permitAll() // Allow access to the login page
-                )
-                .logout(logout -> logout
-                        .permitAll() // Allow everyone to log out
-                );
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout.permitAll());
 
         return http.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(UserService userService) {
-        return username -> userService.findByUsername(username)
-                .map(userDTO -> org.springframework.security.core.userdetails.User
-                        .withUsername(userDTO.getUsername())
-                        .password(userDTO.getPassword()) // Ensure `password` is available in `UserDTO`
-                        .roles(userDTO.getRole()) // Add roles
-                        .build()
-                )
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
