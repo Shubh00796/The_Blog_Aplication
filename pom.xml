@@ -93,6 +93,15 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.opennlp/opennlp-tools -->
+		<dependency>
+			<groupId>org.apache.opennlp</groupId>
+			<artifactId>opennlp-tools</artifactId>
+			<version>2.5.2</version>
+		</dependency>
+
+
+
 
 		<dependency>
 			<groupId>com.mysql</groupId>
