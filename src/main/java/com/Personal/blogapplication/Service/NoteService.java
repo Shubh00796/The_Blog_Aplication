@@ -89,7 +89,7 @@ public class NoteService {
     public class GrammarChecker {
         public String checkGrammar(String content) {
             if (content == null || content.isEmpty()) {
-                return "Content is empty. No grammar issues found.";
+                return "Content is empty. No grammar issues foundssss.";
             }
 
             try (InputStream modelIn = getClass().getResourceAsStream("/en-pos-maxent.bin")) {
