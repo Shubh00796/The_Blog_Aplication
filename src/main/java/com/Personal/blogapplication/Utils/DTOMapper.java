@@ -1,7 +1,9 @@
 package com.Personal.blogapplication.Utils;
 
 import com.Personal.blogapplication.Dtos.BookDTO;
+import com.Personal.blogapplication.Dtos.MemberDTO;
 import com.Personal.blogapplication.Entity.Book;
+import com.Personal.blogapplication.Entity.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -33,4 +35,28 @@ public class DTOMapper {
 
 
     }
+
+    public Member toMemberEntity(MemberDTO memberDTO){
+        log.info("getting the details of the book", memberDTO);
+
+        return Member.builder()
+                .id(memberDTO.getId())
+                .name(memberDTO.getName())
+                .email(memberDTO.getEmail())
+                .membershipDate(memberDTO.getMembershipDate())
+                .build();
+
+
+    }
+
+
+    public MemberDTO toMemberDTO(Member member) {
+        return MemberDTO.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .membershipDate(member.getMembershipDate())
+                .build();
+    }
+
 }
