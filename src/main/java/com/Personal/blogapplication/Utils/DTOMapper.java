@@ -1,13 +1,7 @@
 package com.Personal.blogapplication.Utils;
 
-import com.Personal.blogapplication.Dtos.BookDTO;
-import com.Personal.blogapplication.Dtos.BorrowDTO;
-import com.Personal.blogapplication.Dtos.MemberDTO;
-import com.Personal.blogapplication.Dtos.StudentDTO;
-import com.Personal.blogapplication.Entity.Book;
-import com.Personal.blogapplication.Entity.BorrowRecord;
-import com.Personal.blogapplication.Entity.Member;
-import com.Personal.blogapplication.Entity.Student;
+import com.Personal.blogapplication.Dtos.*;
+import com.Personal.blogapplication.Entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -88,6 +82,33 @@ public class DTOMapper {
                 .dateOfBirth(studentDTO.getDateOfBirth())
                 .build();
 
+    }
+
+    public CourseDTO toCourseDTO(Course course){
+        return CourseDTO.builder()
+                .id(course.getId())
+                .courseName(course.getCourseName())
+                .courseCode(course.getCourseCode())
+                .credits(course.getCredits())
+                .build();
+    }
+
+    public Course toCourseEntity(CourseDTO courseDTO){
+        return Course.builder()
+                .id(courseDTO.getId())
+                .courseName(courseDTO.getCourseName())
+                .courseCode(courseDTO.getCourseCode())
+                .credits(courseDTO.getCredits())
+                .build();
+    }
+
+    public EnrollmentDTO toEnrollmentDTO(Enrollment enrollment){
+        return EnrollmentDTO.builder()
+                .id(enrollment.getId())
+                .studentId(enrollment.getStudentId())
+                .courseId(enrollment.getCourseId())
+                .enrollmentDate(enrollment.getEnrollmentDate())
+                .build();
     }
 
 }
