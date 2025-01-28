@@ -3,9 +3,11 @@ package com.Personal.blogapplication.Utils;
 import com.Personal.blogapplication.Dtos.BookDTO;
 import com.Personal.blogapplication.Dtos.BorrowDTO;
 import com.Personal.blogapplication.Dtos.MemberDTO;
+import com.Personal.blogapplication.Dtos.StudentDTO;
 import com.Personal.blogapplication.Entity.Book;
 import com.Personal.blogapplication.Entity.BorrowRecord;
 import com.Personal.blogapplication.Entity.Member;
+import com.Personal.blogapplication.Entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -68,6 +70,24 @@ public class DTOMapper {
                 .borrowDate(borrowRecord.getBorrowDate())
                 .returnDate(borrowRecord.getReturnDate())
                 .build();
+    }
+
+    public StudentDTO toStudentDTO(Student student){
+        return StudentDTO.builder()
+                .id(student.getId())
+                .name(student.getName())
+                .email(student.getEmail())
+                .dateOfBirth(student.getDateOfBirth())
+                .build();
+    }
+    public Student toStudentEntity(StudentDTO studentDTO){
+        return Student.builder()
+                .id(studentDTO.getId())
+                .name(studentDTO.getName())
+                .email(studentDTO.getEmail())
+                .dateOfBirth(studentDTO.getDateOfBirth())
+                .build();
+
     }
 
 }
