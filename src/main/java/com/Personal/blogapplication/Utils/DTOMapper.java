@@ -1,8 +1,10 @@
 package com.Personal.blogapplication.Utils;
 
 import com.Personal.blogapplication.Dtos.BookDTO;
+import com.Personal.blogapplication.Dtos.BorrowDTO;
 import com.Personal.blogapplication.Dtos.MemberDTO;
 import com.Personal.blogapplication.Entity.Book;
+import com.Personal.blogapplication.Entity.BorrowRecord;
 import com.Personal.blogapplication.Entity.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -56,6 +58,15 @@ public class DTOMapper {
                 .name(member.getName())
                 .email(member.getEmail())
                 .membershipDate(member.getMembershipDate())
+                .build();
+    }
+    public BorrowDTO toBorrowDTO(BorrowRecord borrowRecord){
+        return BorrowDTO.builder()
+                .id(borrowRecord.getId())
+                .bookId(borrowRecord.getBookId())
+                .memberId(borrowRecord.getMemberId())
+                .borrowDate(borrowRecord.getBorrowDate())
+                .returnDate(borrowRecord.getReturnDate())
                 .build();
     }
 
