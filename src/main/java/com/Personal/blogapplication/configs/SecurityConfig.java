@@ -25,12 +25,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").authenticated()
-                        .requestMatchers("/user/**").permitAll()
-                        .anyRequest().permitAll()
+//                        .requestMatchers("/api/workouts/**").authenticated()  // Protect /api/workouts/** with authentication
+                        .requestMatchers("/admin/**").authenticated()  // Admin routes, only authenticated users can access
+                        .requestMatchers("/user/**").permitAll()  // Public routes, no authentication required
+                        .anyRequest().permitAll()  // Allow all other requests (e.g., for public resources)
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout -> logout.permitAll());
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)  // Add JwtFilter before standard security filters
+                .logout(logout -> logout.permitAll());  // Allow public access to logout
 
         return http.build();
     }

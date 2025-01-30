@@ -13,12 +13,17 @@ public class UserDetailsConfig {
     @Bean
     public UserDetailsService userDetailsService(UserService userService) {
         return username -> userService.findByUsername(username)
-                .map(user -> org.springframework.security.core.userdetails.User
-                        .withUsername(user.getUsername())
-                        .password(user.getPassword())
-                        .roles("USER") // Add roles if needed
-                        .build()
-                )
+                .map(user -> {
+                    if (user.getPassword() == null) {
+                        throw new IllegalArgumentException("Password cannot be null for user: " + username);
+                    }
+                    return org.springframework.security.core.userdetails.User
+                            .withUsername(user.getUsername())
+                            .password(user.getPassword())
+                            .roles("USER") // Add roles if needed
+                            .build();
+                })
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
+
 }

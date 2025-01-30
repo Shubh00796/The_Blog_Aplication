@@ -19,6 +19,10 @@ public class AuthService {
     private final UserForWorkoutMapper userForWorkoutMapper;
 
     public AuthResponseDTO register(AuthRequestDTO authRequestDTO) {
+        if (authRequestDTO.getPassword() == null || authRequestDTO.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+
         UserForWorkout user = UserForWorkout.builder()
                 .username(authRequestDTO.getUsername())
                 .password(passwordEncoder.encode(authRequestDTO.getPassword()))
@@ -31,17 +35,22 @@ public class AuthService {
         return userForWorkoutMapper.toAuthResponseDTO(savedUser, token);
     }
 
-public AuthResponseDTO login(AuthRequestDTO requestDTO){
-    UserForWorkout user = userForWorkoutReposiotry.findByUsername(requestDTO.getUsername())
-            .orElseThrow(() -> new IllegalArgumentException("Givein username Not Found"));
 
-    if(!passwordEncoder.matches(requestDTO.getPassword(),user.getPassword())){
-        throw new RuntimeException("Invalid credentials!");
+    public AuthResponseDTO login(AuthRequestDTO requestDTO){
+        UserForWorkout user = userForWorkoutReposiotry.findByUsername(requestDTO.getUsername())
+                .orElse(null);  // Avoid throwing exception if user is not found
+
+        if (user == null) {
+            throw new RuntimeException("User with given username not found.");
+        }
+
+        if(!passwordEncoder.matches(requestDTO.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials!");
+        }
+
+        String token = jwtUtil.generateToken(user.getUsername());
+        return userForWorkoutMapper.toAuthResponseDTO(user, token);
     }
-    String token = jwtUtil.generateToken(user.getUsername());
-    return userForWorkoutMapper.toAuthResponseDTO(user, token);
 
-
-}
 
 }

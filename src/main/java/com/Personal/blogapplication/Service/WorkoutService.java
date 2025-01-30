@@ -1,14 +1,17 @@
 package com.Personal.blogapplication.Service;
 
 import com.Personal.blogapplication.Dtos.WorkoutDTO;
+import com.Personal.blogapplication.Entity.UserForWorkout;
 import com.Personal.blogapplication.Entity.Workout;
 import com.Personal.blogapplication.Mappers.WorkoutMapper;
+import com.Personal.blogapplication.Repo.UserForWorkoutReposiotry;
 import com.Personal.blogapplication.Repo.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,8 +20,13 @@ import java.util.stream.Collectors;
 public class WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final WorkoutMapper workoutMapper;
+    private final UserForWorkoutReposiotry userForWorkoutReposiotry;
 
     public WorkoutDTO createWorkout(WorkoutDTO workoutDTO){
+        Optional<UserForWorkout> user = userForWorkoutReposiotry.findByUsername(workoutDTO.getUsername());
+        if (!user.isPresent()) {
+            throw new RuntimeException("User with username " + workoutDTO.getUsername() + " does not exist.");
+        }
         Workout entity = workoutMapper.toEntity(workoutDTO);
         Workout savedWorkout = workoutRepository.save(entity);
         return workoutMapper.toDTO(savedWorkout);
