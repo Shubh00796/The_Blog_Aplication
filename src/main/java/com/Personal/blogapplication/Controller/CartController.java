@@ -32,16 +32,16 @@ public class CartController {
         }
     }
 
-    @DeleteMapping("/remove")
-    public ResponseEntity<String> removeProductFromCart(@RequestParam Long userId,
-                                                        @RequestParam Long productId) {
-        try {
-            cartService.removeProductFromCart(userId, productId);
-            return ResponseEntity.ok("Product removed from cart successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+//    @DeleteMapping("/remove")
+//    public ResponseEntity<String> removeProductFromCart(@RequestParam Long userId,
+//                                                        @RequestParam Long productId) {
+//        try {
+//            cartService.addProductToCart(userId, productId);
+//            return ResponseEntity.ok("Product removed from cart successfully.");
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
     @GetMapping("/view")
     public ResponseEntity<CartDTO> viewCart(@RequestParam Long userId) {
