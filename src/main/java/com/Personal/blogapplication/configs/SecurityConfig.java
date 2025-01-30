@@ -27,6 +27,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/api/workouts/**").authenticated()  // Protect /api/workouts/** with authentication
                         .requestMatchers("/admin/**").authenticated()  // Admin routes, only authenticated users can access
+                                .requestMatchers("/v3/api-docs/**").permitAll() // Allow access to OpenAPI spec
+                                .requestMatchers("/swagger-ui.html").permitAll() // Allow access to Swagger UI
+                                .requestMatchers("/swagger-ui/**").permitAll()  // Allow access to Swagger UI resources
                         .requestMatchers("/user/**").permitAll()  // Public routes, no authentication required
                         .anyRequest().permitAll()  // Allow all other requests (e.g., for public resources)
                 )
