@@ -19,5 +19,7 @@ public class Exercise {
 
     private String name;
     private String description;
-    private String category; // cardio, strength, flexibility
+    private String category;
+    private String username;
+
 }

@@ -14,4 +14,5 @@ public class ExerciseDTO {
     private String name;
     private String description;
     private String category;
+    private String username;
 }
