@@ -5,7 +5,7 @@ import com.Personal.blogapplication.Dtos.CartItemDTO;
 import com.Personal.blogapplication.Entity.Cart;
 import com.Personal.blogapplication.Mappers.CartMapper;
 import com.Personal.blogapplication.Repo.CartRepository;
-import com.Personal.blogapplication.Repo.ProductRepository;
+import com.Personal.blogapplication.Repo.ProductCatlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ import java.util.ArrayList;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final ProductRepository productRepository;
+    private final ProductCatlogRepository productRepository;
     private final CartMapper cartMapper;
 
     @Autowired
-    public CartService(CartRepository cartRepository, ProductRepository productRepository, CartMapper cartMapper) {
+    public CartService(CartRepository cartRepository, ProductCatlogRepository productRepository, CartMapper cartMapper) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
         this.cartMapper = cartMapper;
